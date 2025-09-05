@@ -1,4 +1,5 @@
 export const AsyncStorageKeys = {
 	LOGIN_STATUS: 'LOGIN_STATUS',
 	USER_LOGIN_DATA: 'USER_LOGIN_DATA',
+	DARK_THEME: 'DARK_THEME',
 };

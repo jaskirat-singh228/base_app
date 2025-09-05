@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { AppStack } from 'types/navigation_type';
-import BottomTabNavigator from './bottom_navigator';
+import DashboardBottomTabNavigator from './dashboard_bottom_navigator';
 
 const Stack = createNativeStackNavigator<AppStack>();
 
@@ -12,7 +12,10 @@ export const AppNavigator: React.FC = () => {
 				headerShown: false,
 			}}
 		>
-			<Stack.Screen name='BottomTabNavigator' component={BottomTabNavigator} />
+			<Stack.Screen
+				name='DashboardBottomTabNavigator'
+				component={DashboardBottomTabNavigator}
+			/>
 		</Stack.Navigator>
 	);
 };

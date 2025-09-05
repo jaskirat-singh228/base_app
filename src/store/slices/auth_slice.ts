@@ -2,23 +2,21 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { removeDataFromAsyncStorage, setDataToAsyncStorage } from 'utilities/async_storage';
 import { AsyncStorageKeys } from 'utilities/async_storage_keys';
 
-type TUserLoginData = {
+type TAuthData = {
 	isUserLoggedIn: boolean | null;
-	userLoginData: TUserLoginData | undefined;
+	userLoginData: TUserLoginResponseData | undefined;
 };
 
-const initialState: TUserLoginData = {
+const initialState: TAuthData = {
 	isUserLoggedIn: null,
 	userLoginData: undefined,
 };
 
 const authSlice = createSlice({
-	name: 'userLoginData',
+	name: 'authData',
 	initialState: initialState,
 	reducers: {
 		userLogin: (state, action: PayloadAction<TUserLoginResponseData>) => {
-			setDataToAsyncStorage(AsyncStorageKeys.USER_LOGIN_DATA, action?.payload?.email ?? '');
-
 			state.isUserLoggedIn = true;
 			state.userLoginData = state.userLoginData;
 

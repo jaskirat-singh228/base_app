@@ -1,19 +1,42 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, useColorScheme } from 'react-native';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
+// import { darkThemeColors, myTheme, useTheme } from 'utilities/theme';
+import { darkThemeColors, lightThemeColors } from 'utilities/theme';
 import AppNavigator from './app_navigator';
 import { AuthNavigator } from './auth_navigator';
 
 const RootStack = createNativeStackNavigator();
 
 const RootNavigator = () => {
-	const { isUserLoggedIn } = useSelector((state: RootState) => state.userLoginData);
+	const { isUserLoggedIn } = useSelector((state: RootState) => state.authData);
+	const { theme } = useSelector((state: RootState) => state.appData);
+
+	const systemTheme = useColorScheme();
+	const isDarkTheme = React.useMemo(() => {
+		if (theme === 'system') {
+			return systemTheme === 'dark';
+		} else {
+			return theme === 'dark';
+		}
+	}, [systemTheme, theme]);
 
 	return (
-		<NavigationContainer>
+		<NavigationContainer
+			theme={{
+				colors: isDarkTheme ? darkThemeColors : lightThemeColors,
+				dark: isDarkTheme,
+				fonts: {
+					regular: { fontFamily: 'Lato-Regular', fontWeight: '400' },
+					medium: { fontFamily: 'Lato-Regular', fontWeight: '500' },
+					bold: { fontFamily: 'Lato-Bold', fontWeight: '700' },
+					heavy: { fontFamily: 'Lato-Bold', fontWeight: 'bold' },
+				},
+			}}
+		>
 			<RootStack.Navigator
 				screenOptions={{
 					headerShown: false,

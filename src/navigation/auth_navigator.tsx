@@ -10,7 +10,7 @@ import { AuthStack } from 'types/navigation_type';
 const Stack = createNativeStackNavigator<AuthStack>();
 
 export const AuthNavigator: React.FC = () => {
-	const { isUserLoggedIn } = useSelector((state: RootState) => state.userLoginData);
+	const { isUserLoggedIn } = useSelector((state: RootState) => state.authData);
 
 	return (
 		<Stack.Navigator

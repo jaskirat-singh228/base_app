@@ -7,7 +7,7 @@ type TAppThemeData = {
 };
 
 const initialState: TAppThemeData = {
-	theme: 'system',
+	theme: 'light',
 };
 
 const appSlice = createSlice({

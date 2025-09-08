@@ -9,7 +9,9 @@
 		"start": "react-native start --reset-cache --client-logs",
 		"test": "jest",
 		"pods": "cd ios && RCT_NEW_ARCH_ENABLED=1 bundle install && bundle exec pod install && cd ..",
-		"cleanAndroid": "cd android && ./gradlew clean && cd .."
+		"cleanAndroid": "cd android && ./gradlew clean && cd ..",
+		"cleanProject": "npx react-native clean && npm run deleteYarnlock && npm run deletePodlock && npm run deleteGradleFiles",
+		"cleanPods": "cd ios && pod deintegrate && rm Podfile.lock && cd .."
 	},
 	"dependencies": {
 		"@react-native-async-storage/async-storage": "^2.2.0",

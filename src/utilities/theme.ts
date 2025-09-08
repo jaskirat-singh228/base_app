@@ -1,38 +1,45 @@
-import { ImageStyle, TextStyle, ViewStyle } from 'react-native';
-export type Theme = { [key: string]: ViewStyle | TextStyle | ImageStyle };
+import { CustomTheme } from '@react-navigation/native';
 
-export const lightThemeColors = {
-	primary: '#3B82F6',
-	secondary: '#F59E0B',
+export const lightThemeColors: CustomTheme['colors'] = {
+	card: '#F5F5F5',
+	text: '#000000',
+	info: '#0070F2',
+	black: '#000000',
+	white: '#FFFFFF',
+	error: '#AA0808',
+	border: '#DBDBDB',
+	primary: '#427CAC',
+	warning: '#E76500',
+	success: '#256F3A',
+	indicator: '#00000080',
 	background: '#FFFFFF',
-	card: '#F9FAFB',
-	text: '#111827',
-	border: '#E5E7EB',
-	notification: '#EF4444',
+	transparent: '#000000',
+	selectedIcon: '#FFFFFF80',
+	notification: '#F87171',
+	borderRadius: 10,
+	buttonDisable: '#858585',
+	inputBackground: '#E8ECF4',
+	inputPlaceholder: '#858585',
 };
 
-export const darkThemeColors = {
-	primary: '#60A5FA',
-	secondary: '#FBBF24',
-	background: '#111827',
+export const darkThemeColors: CustomTheme['colors'] = {
 	card: '#1F2937',
 	text: '#F9FAFB',
-	border: '#374151',
+	info: '#3B82F6',
+	black: '#000000',
+	white: '#FFFFFF',
+	error: '#F87171',
+	border: '#6A6A6A',
+	primary: '#60A5FA',
+	warning: '#FBBF24',
+	success: '#4ADE80',
+	indicator: '#FFFFFF80',
+	background: '#111827',
+	transparent: '#00000000',
+	selectedIcon: '#60A5FA80',
 	notification: '#F87171',
+	borderRadius: 10,
+	buttonDisable: '#6B7280',
+	inputBackground: '#374151',
+	inputPlaceholder: '#9CA3AF',
 };
-
-// export const myTheme: NavigationTheme = {
-// 	colors: lightThemeColors,
-// 	dark: false,
-// 	fonts: {
-// 		regular: { fontFamily: 'Lato-Regular', fontWeight: '400' },
-// 		medium: { fontFamily: 'Lato-Regular', fontWeight: '500' },
-// 		bold: { fontFamily: 'Lato-Bold', fontWeight: '700' },
-// 		heavy: { fontFamily: 'Lato-Bold', fontWeight: 'bold' },
-// 	},
-// };
-
-// export const useTheme = () => {
-// 	const theme = useColorScheme();
-// 	return theme === 'dark' ? { ...myTheme, dark: true, colors: darkThemeColors } : myTheme;
-// };

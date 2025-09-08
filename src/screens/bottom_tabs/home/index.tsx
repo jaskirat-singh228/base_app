@@ -1,7 +1,6 @@
-import { useTheme } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
-import { Button, Text, View } from 'react-native';
+import { Button, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { setTheme } from 'store/slices/app_slice';
 import { userLogout } from 'store/slices/auth_slice';
@@ -11,7 +10,6 @@ type HomeScreenProps = NativeStackScreenProps<BottomTabStack, 'HomeScreen'>;
 
 const HomeScreen: React.FC<HomeScreenProps> = () => {
 	const dispatch = useDispatch();
-	const { colors } = useTheme();
 
 	return (
 		<View
@@ -19,18 +17,10 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
 				flex: 1,
 				alignItems: 'center',
 				justifyContent: 'center',
-				backgroundColor: colors.background,
 			}}
 		>
-			<Text
-				style={{
-					fontFamily: 'Lato-Bold',
-					fontSize: 50,
-					color: colors.text,
-				}}
-			>
-				Home Screen
-			</Text>
+			{/* <BaseTextInput placeholder='Enter...' style={{}} /> */}
+			{/* <BaseButton title='Press' /> */}
 			<Button title='Logout' onPress={() => dispatch(userLogout())} />
 			<Button title='Dark Mode' onPress={() => dispatch(setTheme('dark'))} />
 			<Button title='Light Mode' onPress={() => dispatch(setTheme('light'))} />

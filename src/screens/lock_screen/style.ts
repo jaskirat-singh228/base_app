@@ -3,72 +3,62 @@ import { StyleSheet } from 'react-native';
 
 export const style = (theme: CustomTheme) =>
 	StyleSheet.create({
-		scrollViewContentContainer: {
-			flex: 1,
-			justifyContent: 'center',
-			alignItems: 'center',
-		},
-
 		container: {
 			flex: 1,
-			backgroundColor: '#111827',
+			backgroundColor: theme.colors.white,
 			justifyContent: 'center',
 			alignItems: 'center',
 			padding: 20,
 		},
 		title: {
 			fontSize: 22,
-			fontWeight: '600',
-			color: '#F9FAFB',
-			marginBottom: 40,
+			fontFamily: theme.fonts.heavy.fontFamily,
+			color: theme.colors.indicator,
+		},
+		pinMainContainer: {
+			flex: 1,
+			alignItems: 'center',
+			justifyContent: 'center',
+			width: '100%',
 		},
 		pinContainer: {
 			flexDirection: 'row',
 			justifyContent: 'center',
-			marginBottom: 50,
+			marginTop: 50,
 		},
 		pinDot: {
-			width: 16,
-			height: 16,
-			borderRadius: 8,
+			width: 20,
+			height: 20,
+			borderRadius: 10,
 			borderWidth: 1,
-			borderColor: '#60A5FA',
+			borderColor: theme.colors.primary,
 			margin: 8,
 			backgroundColor: 'transparent',
 		},
 		filledDot: {
-			backgroundColor: '#60A5FA',
+			backgroundColor: theme.colors.primary,
 		},
-		keypad: {
-			width: '80%',
+		keypadConatiner: {
+			width: '100%',
 			flexDirection: 'row',
 			flexWrap: 'wrap',
+			alignContent: 'center',
+			columnGap: '5%',
+			rowGap: 10,
+			paddingBottom: 40,
 			justifyContent: 'center',
-			marginBottom: 40,
 		},
 		key: {
+			height: 65,
 			width: '30%',
-			aspectRatio: 1,
-			margin: '1.5%',
 			justifyContent: 'center',
 			alignItems: 'center',
-			backgroundColor: '#1F2937',
+			backgroundColor: theme.colors.primary,
 			borderRadius: 50,
 		},
 		keyText: {
 			fontSize: 24,
-			color: '#F9FAFB',
-			fontWeight: '600',
-		},
-		unlockBtn: {
-			backgroundColor: '#60A5FA',
-			paddingVertical: 12,
-			paddingHorizontal: 40,
-			borderRadius: 10,
-		},
-		unlockText: {
-			fontSize: 18,
-			color: '#fff',
+			color: theme.colors.white,
 			fontWeight: '600',
 		},
 	});

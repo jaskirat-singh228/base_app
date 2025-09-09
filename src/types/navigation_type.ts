@@ -6,6 +6,7 @@ export type AuthStack = {
 
 export type AppStack = {
 	DashboardBottomTabNavigator: undefined;
+	LockScreen: undefined;
 };
 
 export type BottomTabStack = {

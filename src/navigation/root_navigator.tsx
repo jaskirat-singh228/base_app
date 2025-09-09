@@ -5,6 +5,7 @@ import { StyleSheet, useColorScheme } from 'react-native';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 // import { darkThemeColors, myTheme, useTheme } from 'utilities/theme';
+import { LATO_BOLD, LATO_REGULAR } from 'utilities/constants';
 import { darkThemeColors, lightThemeColors } from 'utilities/theme';
 import AppNavigator from './app_navigator';
 import { AuthNavigator } from './auth_navigator';
@@ -30,10 +31,10 @@ const RootNavigator = () => {
 				colors: isDarkTheme ? darkThemeColors : lightThemeColors,
 				dark: isDarkTheme,
 				fonts: {
-					regular: { fontFamily: 'Lato-Regular', fontWeight: '400' },
-					medium: { fontFamily: 'Lato-Regular', fontWeight: '500' },
-					bold: { fontFamily: 'Lato-Bold', fontWeight: '700' },
-					heavy: { fontFamily: 'Lato-Bold', fontWeight: 'bold' },
+					regular: { fontFamily: LATO_REGULAR, fontWeight: '400' },
+					medium: { fontFamily: LATO_REGULAR, fontWeight: '500' },
+					bold: { fontFamily: LATO_BOLD, fontWeight: '700' },
+					heavy: { fontFamily: LATO_BOLD, fontWeight: 'bold' },
 				},
 			}}
 		>

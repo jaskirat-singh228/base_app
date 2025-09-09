@@ -16,7 +16,6 @@ declare module '@react-navigation/native' {
 		indicator: string;
 		background: string;
 		transparent: string;
-		selectedIcon: string;
 		borderRadius: number;
 		notification: string;
 		buttonDisable: string;

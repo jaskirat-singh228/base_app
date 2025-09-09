@@ -1,9 +1,16 @@
 import MaterialDesignIcons from '@react-native-vector-icons/material-design-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useTheme } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import HomeScreen from 'screens/bottom_tabs/home';
 import ProfileScreen from 'screens/bottom_tabs/profile';
 import { AppStack, BottomTabStack } from 'types/navigation_type';
+import {
+	BottomTabBarIconSize,
+	BottomTabBarLabelSize,
+	LATO_BOLD,
+	SCREEN_HEIGHT,
+} from 'utilities/constants';
 
 type DashboardBottomTabNavigatorProps = NativeStackScreenProps<
 	AppStack,
@@ -13,23 +20,30 @@ type DashboardBottomTabNavigatorProps = NativeStackScreenProps<
 const Tab = createBottomTabNavigator<BottomTabStack>();
 
 const DashboardBottomTabNavigator: React.FC<DashboardBottomTabNavigatorProps> = () => {
+	const { colors } = useTheme();
 	return (
 		<Tab.Navigator
 			screenOptions={{
 				headerShown: false,
+				tabBarStyle: { backgroundColor: colors.primary, height: SCREEN_HEIGHT * 0.1 },
+				tabBarLabelStyle: {
+					fontSize: BottomTabBarLabelSize,
+					fontFamily: LATO_BOLD,
+				},
+				tabBarActiveTintColor: colors.white,
+				tabBarInactiveTintColor: colors.buttonDisable,
 			}}
 			initialRouteName='HomeScreen'
 		>
 			<Tab.Screen
 				options={{
 					tabBarLabel: 'Home',
-					tabBarLabelStyle: { fontSize: 14, fontFamily: 'Lato-Bold' },
-					tabBarIcon: (props) => {
+					tabBarIcon: ({ focused }) => {
 						return (
 							<MaterialDesignIcons
 								name='home'
-								size={props.size}
-								color={props.color}
+								size={BottomTabBarIconSize}
+								color={focused ? colors.white : colors.buttonDisable}
 							/>
 						);
 					},
@@ -40,13 +54,12 @@ const DashboardBottomTabNavigator: React.FC<DashboardBottomTabNavigatorProps> = 
 			<Tab.Screen
 				options={{
 					tabBarLabel: 'Profile',
-					tabBarLabelStyle: { fontSize: 14, fontFamily: 'Lato-Bold' },
-					tabBarIcon: (props) => {
+					tabBarIcon: ({ focused }) => {
 						return (
 							<MaterialDesignIcons
 								name='account'
-								size={props.size}
-								color={props.color}
+								size={BottomTabBarIconSize}
+								color={focused ? colors.white : colors.buttonDisable}
 							/>
 						);
 					},

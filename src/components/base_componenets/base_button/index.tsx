@@ -17,7 +17,7 @@ const BaseButtonComp: React.FC<BaseButtonCompProps> = (props) => {
 	const viewStyle = style(theme);
 
 	return (
-		<TouchableOpacity {...props} style={[viewStyle.baseButton, props?.style]}>
+		<TouchableOpacity style={[viewStyle.baseButton, props?.style]} {...props}>
 			{loading ? (
 				<ActivityIndicator color={theme.colors.white} size={50} />
 			) : (

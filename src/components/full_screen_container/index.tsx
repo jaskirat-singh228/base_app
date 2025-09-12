@@ -31,7 +31,7 @@ const FullScreenContainerComp: React.FC<FullScreenContainerCompProps> = (props) 
 			<View style={{ flex: 1, width: '100%' }}>{children}</View>
 			<View
 				style={{
-					backgroundColor: theme.colors.background,
+					backgroundColor: theme.colors.primary,
 					width: '100%',
 					paddingBottom: paddingBottom ?? bottom,
 				}}

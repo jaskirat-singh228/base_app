@@ -1,13 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { setDataToAsyncStorage } from 'utilities/async_storage';
-import { AsyncStorageKeys } from 'utilities/async_storage_keys';
 
 type TAppThemeData = {
 	theme: 'light' | 'dark' | 'system';
+	isAppLocked: boolean;
+	isBiometric: boolean;
+	appLockPIN: string;
 };
 
 const initialState: TAppThemeData = {
 	theme: 'light',
+	isAppLocked: false,
+	isBiometric: false,
+	appLockPIN: '',
 };
 
 const appSlice = createSlice({
@@ -16,10 +20,16 @@ const appSlice = createSlice({
 	reducers: {
 		setTheme: (state, action: PayloadAction<'light' | 'dark' | 'system'>) => {
 			state.theme = action.payload;
-			setDataToAsyncStorage(AsyncStorageKeys.DARK_THEME, action.payload);
 		},
+		setAppLock: (state, action: PayloadAction<string>) => {
+			state.appLockPIN = action.payload;
+		},
+		setBiometric: (state, action: PayloadAction<boolean>) => {
+			state.isBiometric = action.payload;
+		},
+		resetAppData: (state) => (state = initialState),
 	},
 });
 
-export const { setTheme } = appSlice.actions;
+export const { setTheme, setAppLock, setBiometric, resetAppData } = appSlice.actions;
 export default appSlice.reducer;

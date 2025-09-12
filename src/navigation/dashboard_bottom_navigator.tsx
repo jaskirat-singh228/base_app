@@ -19,7 +19,8 @@ type DashboardBottomTabNavigatorProps = NativeStackScreenProps<
 
 const Tab = createBottomTabNavigator<BottomTabStack>();
 
-const DashboardBottomTabNavigator: React.FC<DashboardBottomTabNavigatorProps> = () => {
+const DashboardBottomTabNavigator: React.FC<DashboardBottomTabNavigatorProps> = (props) => {
+	// const { message } = props.route.params;
 	const { colors } = useTheme();
 	return (
 		<Tab.Navigator
@@ -52,6 +53,7 @@ const DashboardBottomTabNavigator: React.FC<DashboardBottomTabNavigatorProps> = 
 				component={HomeScreen}
 			/>
 			<Tab.Screen
+				// initialParams={{ message: message }}
 				options={{
 					tabBarLabel: 'Profile',
 					tabBarIcon: ({ focused }) => {

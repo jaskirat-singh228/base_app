@@ -2,8 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { StyleSheet, useColorScheme } from 'react-native';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store';
+import { useAppSelector } from 'store';
 // import { darkThemeColors, myTheme, useTheme } from 'utilities/theme';
 import { LATO_BOLD, LATO_REGULAR } from 'utilities/constants';
 import { darkThemeColors, lightThemeColors } from 'utilities/theme';
@@ -13,8 +12,8 @@ import { AuthNavigator } from './auth_navigator';
 const RootStack = createNativeStackNavigator();
 
 const RootNavigator = () => {
-	const { isUserLoggedIn } = useSelector((state: RootState) => state.authData);
-	const { theme } = useSelector((state: RootState) => state.appData);
+	const { isUserLoggedIn } = useAppSelector((state) => state.authData);
+	const { theme } = useAppSelector((state) => state.appData);
 
 	const systemTheme = useColorScheme();
 	const isDarkTheme = React.useMemo(() => {

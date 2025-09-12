@@ -17,6 +17,7 @@ const useBiometrics = () => {
 
 	const triggerBiometrics = async () => {
 		const { biometryType } = await rnBiometrics.isSensorAvailable();
+		rnBiometrics.allowDeviceCredentials = true;
 		const { success, error } = await rnBiometrics.simplePrompt({
 			promptMessage: biometryType === 'FaceID' ? 'Confirm Face ID' : 'Confirm Fingerpeint',
 		});

@@ -17,3 +17,21 @@ export const LATO_BOLD = 'Lato-Bold';
 
 export const BottomTabBarIconSize = 24;
 export const BottomTabBarLabelSize = 12;
+
+export const MaterialIcon = {
+	HOME: 'home',
+	CHEVRON_UP: 'chevron-up',
+	CHEVRON_DOWN: 'chevron-down',
+	CHEVRON_LEFT: 'chevron-left',
+	CHEVRON_RIGHT: 'chevron-right',
+};
+
+export const IS_BIOMETRIC_ENABLED = {
+	ENABLED: 'BIOMETRIC_ENABLED',
+	DISABLED: 'BIOMETRIC_DISABLED',
+};
+
+export const IS_APPLOCK_ENABLED = {
+	ENABLED: 'APPLOCK_ENABLED',
+	DISABLED: 'APPLOCK_DISABLED',
+};

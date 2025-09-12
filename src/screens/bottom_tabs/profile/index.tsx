@@ -1,192 +1,136 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useState } from 'react';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { BottomTabStack } from 'types/navigation_type';
+import { useNavigation, useTheme } from '@react-navigation/native';
+import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
+import BaseImage from 'components/base_componenets/base_image';
+import BaseText from 'components/base_componenets/base_text';
+import useBiometrics from 'hooks/useBiometrics';
+import React from 'react';
+import { Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { useAppDispatch, useAppSelector } from 'store';
+import { setAppLock, setBiometric } from 'store/slices/app_slice';
+import { AppStack, BottomTabStack } from 'types/navigation_type';
+import { setDataToAsyncStorage } from 'utilities/async_storage';
+import { AsyncStorageKeys } from 'utilities/async_storage_keys';
+import { IS_BIOMETRIC_ENABLED } from 'utilities/constants';
+import { style } from './syle';
 
 type ProfileScreenProps = NativeStackScreenProps<BottomTabStack, 'ProfileScreen'>;
 
 const ProfileScreen: React.FC<ProfileScreenProps> = (props) => {
-	const [isAppLock, setIsAppLock] = useState<boolean>(false);
-	const [isBiometric, setIsBiometric] = useState<boolean>(false);
+	const theme = useTheme();
+	const viewStyle = style(theme);
+	const dispatch = useAppDispatch();
+	const { userLoginData } = useAppSelector((state) => state.authData);
+	const { isAppLocked, isBiometric } = useAppSelector((state) => state.appData);
+	const { triggerBiometrics } = useBiometrics();
+	const appStackNavigation = useNavigation<NativeStackNavigationProp<AppStack>>();
 
-	const user = {
-		name: 'Jaskirat Singh',
-		email: 'jaskirat@example.com',
-		avatar: 'https://i.pravatar.cc/150',
+	const enableBiometric = async () => {
+		if (!isBiometric) {
+			const { success } = await triggerBiometrics();
+			if (success) {
+				await setDataToAsyncStorage(
+					AsyncStorageKeys.IS_BIOMETRIC_ENABLED,
+					IS_BIOMETRIC_ENABLED.ENABLED,
+				);
+				dispatch(setBiometric(true));
+			}
+		} else {
+			await setDataToAsyncStorage(
+				AsyncStorageKeys.IS_BIOMETRIC_ENABLED,
+				IS_BIOMETRIC_ENABLED.DISABLED,
+			);
+			dispatch(setBiometric(false));
+		}
+	};
+
+	const enableAppLock = async () => {
+		console.log('Values ==> ', isAppLocked, isBiometric);
+
+		if (!isAppLocked) appStackNavigation.navigate('SetAppLockScreen');
+		else {
+			dispatch(setAppLock(''));
+			dispatch(setBiometric(false));
+		}
 	};
 
 	return (
-		<ScrollView contentContainerStyle={styles.container}>
+		<ScrollView contentContainerStyle={viewStyle.container}>
 			{/* Profile Image */}
-			<Image source={{ uri: user.avatar }} style={styles.avatar} />
-
+			<BaseImage source={{ uri: 'https://i.pravatar.cc/150' }} style={viewStyle.avatar} />
 			{/* User Info */}
-			<Text style={styles.name}>{user.name}</Text>
-			<Text style={styles.email}>{user.email}</Text>
-
+			<BaseText style={viewStyle.email}>{userLoginData?.email}</BaseText>
 			{/* Action Buttons */}
-			<View style={styles.buttonsContainer}>
-				<TouchableOpacity style={styles.button}>
-					<Text style={styles.buttonText}>Edit Profile</Text>
+			<View style={viewStyle.buttonsContainer}>
+				<TouchableOpacity style={viewStyle.button}>
+					<Text style={viewStyle.buttonText}>Edit Profile</Text>
 				</TouchableOpacity>
-				<TouchableOpacity style={[styles.button, styles.logoutButton]}>
-					<Text style={styles.buttonText}>Logout</Text>
-				</TouchableOpacity>
-			</View>
-
-			{/* Extra Settings */}
-			<View style={styles.section}>
-				<Text style={styles.sectionTitle}>Settings</Text>
-				<TouchableOpacity style={styles.listItem}>
-					<Text style={styles.listText}>Change Password</Text>
-				</TouchableOpacity>
-				<TouchableOpacity style={styles.listItem}>
-					<Text style={styles.listText}>Notifications</Text>
-				</TouchableOpacity>
-				<TouchableOpacity style={styles.listItem}>
-					<Text style={styles.listText}>Privacy Policy</Text>
+				<TouchableOpacity style={[viewStyle.button, viewStyle.logoutButton]}>
+					<Text style={viewStyle.buttonText}>Logout</Text>
 				</TouchableOpacity>
 			</View>
-
 			{/* Extra Settings */}
-			<View style={styles.section}>
-				<Text style={styles.sectionTitle}>Security and Privecy</Text>
-				<View style={styles.listItem}>
-					<Text style={styles.listText}>App Lock</Text>
-					<TouchableOpacity
-						onPress={(prev) => {
-							setIsAppLock(!isAppLock);
-						}}
+			<View style={viewStyle.section}>
+				<Text style={viewStyle.sectionTitle}>Settings</Text>
+				<TouchableOpacity style={viewStyle.listItem}>
+					<Text style={viewStyle.listText}>Change Password</Text>
+				</TouchableOpacity>
+				<TouchableOpacity style={viewStyle.listItem}>
+					<Text style={viewStyle.listText}>Notifications</Text>
+				</TouchableOpacity>
+				<TouchableOpacity style={viewStyle.listItem}>
+					<Text style={viewStyle.listText}>Privacy Policy</Text>
+				</TouchableOpacity>
+			</View>
+			{/* Extra Settings */}
+			<View style={viewStyle.section}>
+				<Text style={viewStyle.sectionTitle}>Security and Privecy</Text>
+				<Pressable onPress={enableAppLock} style={viewStyle.listItem}>
+					<Text style={viewStyle.listText}>App Lock</Text>
+					<View
 						style={[
-							styles.toggleButtonContainer,
+							viewStyle.toggleButtonContainer,
 							{
-								alignItems: isAppLock ? 'flex-end' : 'flex-start',
-								backgroundColor: isAppLock ? 'green' : 'gray',
+								alignItems: isAppLocked ? 'flex-end' : 'flex-start',
+								backgroundColor: isAppLocked ? 'green' : 'gray',
 							},
 						]}
 					>
 						<View
 							style={[
-								styles.toggleIdicator,
+								viewStyle.toggleIdicator,
 								{
-									backgroundColor: isAppLock ? 'lightgreen' : 'lightgray',
+									backgroundColor: isAppLocked ? 'lightgreen' : 'lightgray',
 								},
 							]}
 						/>
-					</TouchableOpacity>
-				</View>
-				<View style={styles.listItem}>
-					<Text style={styles.listText}>Enable Biometric</Text>
-					<TouchableOpacity
-						onPress={(prev) => {
-							setIsBiometric(!isBiometric);
-						}}
-						style={[
-							styles.toggleButtonContainer,
-							{
-								alignItems: isBiometric ? 'flex-end' : 'flex-start',
-								backgroundColor: isBiometric ? 'green' : 'gray',
-							},
-						]}
-					>
+					</View>
+				</Pressable>
+				{isAppLocked && (
+					<Pressable onPress={enableBiometric} style={viewStyle.listItem}>
+						<Text style={viewStyle.listText}>Enable Biometric</Text>
 						<View
 							style={[
-								styles.toggleIdicator,
+								viewStyle.toggleButtonContainer,
 								{
-									backgroundColor: isBiometric ? 'lightgreen' : 'lightgray',
+									alignItems: isBiometric ? 'flex-end' : 'flex-start',
+									backgroundColor: isBiometric ? 'green' : 'gray',
 								},
 							]}
-						/>
-					</TouchableOpacity>
-				</View>
+						>
+							<View
+								style={[
+									viewStyle.toggleIdicator,
+									{
+										backgroundColor: isBiometric ? 'lightgreen' : 'lightgray',
+									},
+								]}
+							/>
+						</View>
+					</Pressable>
+				)}
 			</View>
 		</ScrollView>
 	);
 };
 
 export default ProfileScreen;
-
-const styles = StyleSheet.create({
-	container: {
-		flexGrow: 1,
-		alignItems: 'center',
-		paddingVertical: 30,
-		backgroundColor: '#F9FAFB',
-	},
-	avatar: {
-		width: 120,
-		height: 120,
-		borderRadius: 60,
-		marginBottom: 15,
-	},
-	name: {
-		fontSize: 22,
-		fontWeight: '600',
-		color: '#111827',
-	},
-	email: {
-		fontSize: 16,
-		color: '#6B7280',
-		marginBottom: 20,
-	},
-	buttonsContainer: {
-		flexDirection: 'row',
-		marginBottom: 30,
-	},
-	button: {
-		backgroundColor: '#3B82F6',
-		paddingVertical: 10,
-		paddingHorizontal: 20,
-		borderRadius: 8,
-		marginHorizontal: 5,
-	},
-	logoutButton: {
-		backgroundColor: '#EF4444',
-	},
-	buttonText: {
-		color: '#fff',
-		fontSize: 16,
-		fontWeight: '500',
-	},
-	section: {
-		width: '90%',
-		marginTop: 20,
-		backgroundColor: '#fff',
-		borderRadius: 12,
-		padding: 15,
-		shadowColor: '#000',
-		shadowOpacity: 0.05,
-		shadowRadius: 5,
-		elevation: 3,
-	},
-	sectionTitle: {
-		fontSize: 18,
-		fontWeight: '600',
-		marginBottom: 10,
-		color: '#111827',
-	},
-	listItem: {
-		paddingVertical: 12,
-		borderBottomWidth: 1,
-		borderBottomColor: '#E5E7EB',
-		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'space-between',
-	},
-	listText: {
-		fontSize: 16,
-		color: '#374151',
-	},
-	toggleButtonContainer: {
-		height: 25,
-		width: 50,
-		borderRadius: 20,
-		zIndex: 1000,
-		justifyContent: 'center',
-	},
-	toggleIdicator: {
-		height: 30,
-		width: 30,
-		borderRadius: 18,
-	},
-});

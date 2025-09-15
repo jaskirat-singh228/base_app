@@ -9,13 +9,14 @@ import DashboardBottomTabNavigator from './dashboard_bottom_navigator';
 const Stack = createNativeStackNavigator<AppStack>();
 
 export const AppNavigator: React.FC = () => {
-	const { isAppLocked } = useAppSelector((state) => state.appData);
+	const { appLockPIN } = useAppSelector((state) => state.appData);
+
 	return (
 		<Stack.Navigator
 			screenOptions={{
 				headerShown: false,
 			}}
-			initialRouteName={isAppLocked ? 'AppLockScreen' : 'DashboardBottomTabNavigator'}
+			initialRouteName={!!appLockPIN ? 'AppLockScreen' : 'DashboardBottomTabNavigator'}
 		>
 			<Stack.Screen name='AppLockScreen' component={AppLockScreen} />
 			<Stack.Screen

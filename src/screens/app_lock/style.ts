@@ -13,7 +13,6 @@ export const style = (theme: CustomTheme) =>
 		title: {
 			fontSize: 22,
 			fontFamily: theme.fonts.heavy.fontFamily,
-			color: theme.colors.indicator,
 		},
 		pinMainContainer: {
 			flex: 1,

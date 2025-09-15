@@ -42,38 +42,35 @@ const AppLockScreen: React.FC<AppLockScreenProps> = (props) => {
 
 	const checkIsBiometric = async () => {
 		const isBiometric = await getDataFromAsyncStorage(AsyncStorageKeys.IS_BIOMETRIC_ENABLED);
-		await setDataToAsyncStorage(
-			AsyncStorageKeys.IS_BIOMETRIC_ENABLED,
-			isBiometric ? IS_BIOMETRIC_ENABLED.ENABLED : IS_BIOMETRIC_ENABLED.DISABLED,
-		);
-		setIsBiometricEnabled(isBiometric === IS_BIOMETRIC_ENABLED.ENABLED);
-		dispatch(setBiometric(isBiometric === IS_BIOMETRIC_ENABLED.ENABLED));
 
-		if (isBiometric === IS_BIOMETRIC_ENABLED.ENABLED) {
-			handleBiometric();
-		}
+		dispatch(setBiometric(isBiometric === IS_BIOMETRIC_ENABLED.ENABLED));
+		setIsBiometricEnabled(isBiometric === IS_BIOMETRIC_ENABLED.ENABLED);
+
+		if (isBiometric === IS_BIOMETRIC_ENABLED.ENABLED) handleBiometric();
 	};
 
 	const handleSubmit = async () => {
 		if (pin.length < 4) return;
 		if (isValidPIN) {
-			await setDataToAsyncStorage(AsyncStorageKeys.APP_LOCK, pin);
 			dispatch(setAppLock(pin));
+			await setDataToAsyncStorage(AsyncStorageKeys.APP_LOCK_PIN, pin);
 			props.navigation.navigate('DashboardBottomTabNavigator');
 		} else {
-			setTimeout(() => {
+			setTimeout(async () => {
 				setPin('');
+				dispatch(setAppLock(''));
+				await setDataToAsyncStorage(AsyncStorageKeys.APP_LOCK_PIN, '');
 			}, 1000);
 		}
 	};
 	const handleBiometric = async () => {
-		const { success, error } = await triggerBiometrics();
+		const { success } = await triggerBiometrics();
 		if (success) {
+			dispatch(setBiometric(true));
 			await setDataToAsyncStorage(
 				AsyncStorageKeys.IS_BIOMETRIC_ENABLED,
 				IS_BIOMETRIC_ENABLED.ENABLED,
 			);
-			dispatch(setBiometric(true));
 			props.navigation.navigate('DashboardBottomTabNavigator');
 		}
 	};
@@ -96,18 +93,26 @@ const AppLockScreen: React.FC<AppLockScreenProps> = (props) => {
 	return (
 		<View style={viewStyle.container}>
 			<View style={viewStyle.pinMainContainer}>
-				<BaseText style={viewStyle.title}>
+				<BaseText
+					style={[
+						viewStyle.title,
+						{
+							color:
+								isValidPIN === false ? theme.colors.error : theme.colors.indicator,
+						},
+					]}
+				>
 					{isValidPIN === false ? 'Incorrect Pin' : 'Enter Pin'}
 				</BaseText>
 
 				{/* PIN circles */}
 				<View style={viewStyle.pinContainer}>
-					{[0, 1, 2, 3].map((i) => (
+					{[0, 1, 2, 3].map((_, index) => (
 						<View
-							key={i}
+							key={index}
 							style={[
 								viewStyle.pinDot,
-								{
+								pin.length > index && {
 									backgroundColor:
 										isValidPIN === false
 											? theme.colors.error
@@ -126,6 +131,7 @@ const AppLockScreen: React.FC<AppLockScreenProps> = (props) => {
 			{/* Custom Number Keypad */}
 			<CustomNumberKeyboard
 				isBiometricEnalbed={isBiometricEnalbed}
+				onBiometricPress={handleBiometric}
 				onDigitPress={onPressDigit}
 				onClearPress={onPressClear}
 			/>

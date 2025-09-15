@@ -14,10 +14,8 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
 
 	const loginHandler = async () => {
 		const userData = { email: 'kirat@gmail.com' };
-
-		await setDataToAsyncStorage(AsyncStorageKeys.USER_LOGIN_DATA, JSON.stringify(userData));
 		dispatch(userLogin(userData));
-		console.log('login successfuly!');
+		await setDataToAsyncStorage(AsyncStorageKeys.USER_LOGIN_DATA, JSON.stringify(userData));
 	};
 
 	return (

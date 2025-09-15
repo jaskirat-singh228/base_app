@@ -20,36 +20,32 @@ const ProfileScreen: React.FC<ProfileScreenProps> = (props) => {
 	const viewStyle = style(theme);
 	const dispatch = useAppDispatch();
 	const { userLoginData } = useAppSelector((state) => state.authData);
-	const { isAppLocked, isBiometric } = useAppSelector((state) => state.appData);
+	const { appLockPIN, isBiometric } = useAppSelector((state) => state.appData);
 	const { triggerBiometrics } = useBiometrics();
 	const appStackNavigation = useNavigation<NativeStackNavigationProp<AppStack>>();
 
 	const enableBiometric = async () => {
 		if (!isBiometric) {
 			const { success } = await triggerBiometrics();
-			if (success) {
-				await setDataToAsyncStorage(
-					AsyncStorageKeys.IS_BIOMETRIC_ENABLED,
-					IS_BIOMETRIC_ENABLED.ENABLED,
-				);
-				dispatch(setBiometric(true));
-			}
+			if (success) dispatch(setBiometric(true));
+			await setDataToAsyncStorage(
+				AsyncStorageKeys.IS_BIOMETRIC_ENABLED,
+				IS_BIOMETRIC_ENABLED.ENABLED,
+			);
 		} else {
+			dispatch(setBiometric(false));
 			await setDataToAsyncStorage(
 				AsyncStorageKeys.IS_BIOMETRIC_ENABLED,
 				IS_BIOMETRIC_ENABLED.DISABLED,
 			);
-			dispatch(setBiometric(false));
 		}
 	};
 
 	const enableAppLock = async () => {
-		console.log('Values ==> ', isAppLocked, isBiometric);
-
-		if (!isAppLocked) appStackNavigation.navigate('SetAppLockScreen');
+		if (!appLockPIN) appStackNavigation.navigate('SetAppLockScreen');
 		else {
 			dispatch(setAppLock(''));
-			dispatch(setBiometric(false));
+			await setDataToAsyncStorage(AsyncStorageKeys.APP_LOCK_PIN, '');
 		}
 	};
 
@@ -90,8 +86,8 @@ const ProfileScreen: React.FC<ProfileScreenProps> = (props) => {
 						style={[
 							viewStyle.toggleButtonContainer,
 							{
-								alignItems: isAppLocked ? 'flex-end' : 'flex-start',
-								backgroundColor: isAppLocked ? 'green' : 'gray',
+								alignItems: !!appLockPIN ? 'flex-end' : 'flex-start',
+								backgroundColor: !!appLockPIN ? 'green' : 'gray',
 							},
 						]}
 					>
@@ -99,13 +95,13 @@ const ProfileScreen: React.FC<ProfileScreenProps> = (props) => {
 							style={[
 								viewStyle.toggleIdicator,
 								{
-									backgroundColor: isAppLocked ? 'lightgreen' : 'lightgray',
+									backgroundColor: !!appLockPIN ? 'lightgreen' : 'lightgray',
 								},
 							]}
 						/>
 					</View>
 				</Pressable>
-				{isAppLocked && (
+				{!!appLockPIN && (
 					<Pressable onPress={enableBiometric} style={viewStyle.listItem}>
 						<Text style={viewStyle.listText}>Enable Biometric</Text>
 						<View

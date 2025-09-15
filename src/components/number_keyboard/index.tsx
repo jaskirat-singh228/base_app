@@ -1,7 +1,6 @@
 import MaterialDesignIcons from '@react-native-vector-icons/material-design-icons';
 import { useTheme } from '@react-navigation/native';
 import BaseText from 'components/base_componenets/base_text';
-import useBiometrics from 'hooks/useBiometrics';
 import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { style } from './style';
@@ -17,7 +16,6 @@ const CustomNumberKeyboardComp = (props: CustomNumberKeyboardCompProps) => {
 	const { onDigitPress, onClearPress, onBiometricPress, isBiometricEnalbed } = props;
 	const theme = useTheme();
 	const viewStyle = style(theme);
-	const { triggerBiometrics } = useBiometrics();
 
 	const handleDigitPress = (digit: string) => onDigitPress(digit);
 

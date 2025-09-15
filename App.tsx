@@ -1,5 +1,6 @@
 import RootNavigator from 'navigation/root_navigator';
-import React from 'react';
+import 'react-native-gesture-handler';
+import 'react-native-reanimated';
 import { Provider } from 'react-redux';
 import { store } from 'store';
 

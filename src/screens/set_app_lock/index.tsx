@@ -4,7 +4,7 @@ import { BackWithTitleHeader } from 'components/back_with_title_view';
 import BaseText from 'components/base_componenets/base_text';
 import FullScreenContainer from 'components/full_screen_container';
 import CustomNumberKeyboard from 'components/number_keyboard';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { View } from 'react-native';
 import { useAppDispatch } from 'store';
 import { setAppLock } from 'store/slices/app_slice';
@@ -35,39 +35,28 @@ const SetAppLockScreen: React.FC<SetAppLockScreenProps> = (props) => {
 		chackAndSavePIN();
 	}, [pin, confirmPin]);
 
-	const chackAndSavePIN = async () => {
+	const chackAndSavePIN = useCallback(async () => {
 		if (isPinConfirmed && isConfirmPinConfirmed) {
 			if (pin === confirmPin) {
-				await setDataToAsyncStorage(AsyncStorageKeys.APP_LOCK, confirmPin);
 				dispatch(setAppLock(confirmPin));
+				await setDataToAsyncStorage(AsyncStorageKeys.APP_LOCK_PIN, confirmPin);
 				props.navigation.goBack();
 			} else {
-				setTimeout(() => {
+				setTimeout(async () => {
 					setPin('');
-					setConfirmPin('');
 				}, 1000);
 			}
 		}
+	}, [pin, confirmPin]);
+
+	const onPressDigit = (digit: string) => {
+		if (!isPinConfirmed) setPin(digit + pin);
+		if (isPinConfirmed && !isConfirmPinConfirmed) setConfirmPin(confirmPin + digit);
 	};
 
-	const onPressDigit = React.useCallback(
-		(digit: string) => {
-			if (!isPinConfirmed) {
-				setPin(pin + digit);
-			}
-			if (isPinConfirmed && !isConfirmPinConfirmed) {
-				setConfirmPin(confirmPin + digit);
-			}
-		},
-		[pin, confirmPin],
-	);
-
 	const onPressClear = React.useCallback(() => {
-		if (pin.length < 4) {
-			setPin(pin.slice(0, -1));
-		} else {
-			setConfirmPin(confirmPin.slice(0, -1));
-		}
+		if (pin.length < 4) setPin(pin.slice(0, -1));
+		else setConfirmPin(confirmPin.slice(0, -1));
 	}, [pin, confirmPin]);
 
 	return (

@@ -2,14 +2,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type TAppThemeData = {
 	theme: 'light' | 'dark' | 'system';
-	isAppLocked: boolean;
 	isBiometric: boolean;
 	appLockPIN: string;
 };
 
 const initialState: TAppThemeData = {
 	theme: 'light',
-	isAppLocked: false,
 	isBiometric: false,
 	appLockPIN: '',
 };

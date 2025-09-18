@@ -4,17 +4,9 @@ import { StyleSheet } from 'react-native';
 export const style = (theme: CustomTheme) =>
 	StyleSheet.create({
 		mainContainer: {
-			flex: 1,
-			width: '100%',
 			alignItems: 'center',
 			justifyContent: 'center',
-			gap: 15,
+			backgroundColor: 'orange',
 		},
-		formKeyboardAvoidingContainer: {
-			height: '100%',
-			width: '100%',
-		},
-		button: {
-			marginVertical: 15,
-		},
+		emailText: { fontSize: 20, fontFamily: theme.fonts.bold.fontFamily },
 	});

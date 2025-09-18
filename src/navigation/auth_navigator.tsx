@@ -15,6 +15,7 @@ export const AuthNavigator: React.FC = () => {
 		<Stack.Navigator
 			screenOptions={{
 				headerShown: false,
+				statusBarStyle: 'light',
 			}}
 			initialRouteName={isUserLoggedIn === false ? 'LoginScreen' : 'SplashScreen'}
 		>

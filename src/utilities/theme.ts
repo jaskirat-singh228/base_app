@@ -13,7 +13,7 @@ export const lightThemeColors: CustomTheme['colors'] = {
 	success: '#256F3A',
 	indicator: '#00000080',
 	background: '#FFFFFF',
-	transparent: '#000000',
+	transparent: '#00000000',
 	notification: '#F87171',
 	borderRadius: 10,
 	buttonDisable: '#858585',

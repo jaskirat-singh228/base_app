@@ -1,12 +1,20 @@
 import { CustomTheme } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
 
-export const style = (theme: CustomTheme) =>
+export const style = (theme: CustomTheme, top: number) =>
 	StyleSheet.create({
-		container: {
-			flexGrow: 1,
+		mainContainer: {
 			alignItems: 'center',
-			paddingVertical: 30,
+			justifyContent: 'center',
+		},
+		statusBarContainer: {
+			height: top,
+			backgroundColor: theme.colors.primary,
+			zIndex: 1000,
+		},
+		stickyView: {
+			alignItems: 'center',
+			justifyContent: 'center',
 			backgroundColor: theme.colors.background,
 		},
 		avatar: {
@@ -15,63 +23,52 @@ export const style = (theme: CustomTheme) =>
 			borderRadius: 60,
 			marginBottom: 15,
 		},
-		name: {
-			fontSize: 22,
-			fontWeight: '600',
-			color: '#111827',
-		},
 		email: {
 			fontSize: 16,
-			color: '#6B7280',
-			marginBottom: 20,
+			fontFamily: theme.fonts.bold.fontFamily,
+			marginBottom: 15,
 		},
 		buttonsContainer: {
+			width: '100%',
+			justifyContent: 'center',
 			flexDirection: 'row',
-			marginBottom: 30,
 		},
 		button: {
-			backgroundColor: '#3B82F6',
+			backgroundColor: theme.colors.primary,
+			width: '40%',
 			paddingVertical: 10,
 			paddingHorizontal: 20,
 			borderRadius: 8,
 			marginHorizontal: 5,
 		},
-		logoutButton: {
-			backgroundColor: '#EF4444',
-		},
-		buttonText: {
-			color: '#fff',
-			fontSize: 16,
-			fontWeight: '500',
-		},
 		section: {
 			width: '90%',
 			marginTop: 20,
-			backgroundColor: '#fff',
+			backgroundColor: theme.colors.card,
 			borderRadius: 12,
 			padding: 15,
-			shadowColor: '#000',
+			shadowColor: theme.colors.black,
 			shadowOpacity: 0.05,
 			shadowRadius: 5,
 			elevation: 3,
 		},
 		sectionTitle: {
 			fontSize: 18,
-			fontWeight: '600',
 			marginBottom: 10,
-			color: '#111827',
+			color: theme.colors.text,
+			fontFamily: theme.fonts.heavy.fontFamily,
 		},
 		listItem: {
 			paddingVertical: 12,
 			borderBottomWidth: 1,
-			borderBottomColor: '#E5E7EB',
+			borderBottomColor: theme.colors.border,
 			flexDirection: 'row',
 			alignItems: 'center',
 			justifyContent: 'space-between',
 		},
 		listText: {
 			fontSize: 16,
-			color: '#374151',
+			color: theme.colors.inputPlaceholder,
 		},
 		toggleButtonContainer: {
 			height: 25,

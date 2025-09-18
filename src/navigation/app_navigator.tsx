@@ -15,6 +15,7 @@ export const AppNavigator: React.FC = () => {
 		<Stack.Navigator
 			screenOptions={{
 				headerShown: false,
+				statusBarStyle: 'light',
 			}}
 			initialRouteName={!!appLockPIN ? 'AppLockScreen' : 'DashboardBottomTabNavigator'}
 		>

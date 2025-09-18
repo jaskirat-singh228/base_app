@@ -1,14 +1,18 @@
 import RootNavigator from 'navigation/root_navigator';
-import 'react-native-gesture-handler';
-import 'react-native-reanimated';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
 import { store } from 'store';
 
 const App = () => {
 	return (
-		<Provider store={store}>
-			<RootNavigator />
-		</Provider>
+		<GestureHandlerRootView style={{ flex: 1 }}>
+			<Provider store={store}>
+				<SafeAreaProvider>
+					<RootNavigator />
+				</SafeAreaProvider>
+			</Provider>
+		</GestureHandlerRootView>
 	);
 };
 

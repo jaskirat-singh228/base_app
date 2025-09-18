@@ -3,7 +3,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { StyleSheet, useColorScheme } from 'react-native';
 import { useAppSelector } from 'store';
-// import { darkThemeColors, myTheme, useTheme } from 'utilities/theme';
 import { LATO_BOLD, LATO_REGULAR } from 'utilities/constants';
 import { darkThemeColors, lightThemeColors } from 'utilities/theme';
 import AppNavigator from './app_navigator';
@@ -37,11 +36,7 @@ const RootNavigator = () => {
 				},
 			}}
 		>
-			<RootStack.Navigator
-				screenOptions={{
-					headerShown: false,
-				}}
-			>
+			<RootStack.Navigator screenOptions={{ headerShown: false }}>
 				{isUserLoggedIn ? (
 					<RootStack.Screen name={'AppNavigator'} component={AppNavigator} />
 				) : (

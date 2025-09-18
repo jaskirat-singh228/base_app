@@ -8,7 +8,7 @@ export type BaseImageCompProps = ImageProps;
 const BaseImageComp: React.FC<BaseImageCompProps> = (props) => {
 	const theme = useTheme();
 	const viewStyle = style(theme);
-	return <Image style={viewStyle.image} {...props} resizeMode='contain' />;
+	return <Image {...props} style={[viewStyle.image, props?.style]} resizeMode='cover' />;
 };
 
 const BaseImage = React.memo(BaseImageComp);

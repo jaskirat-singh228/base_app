@@ -34,30 +34,4 @@ export const style = (theme: CustomTheme) =>
 			margin: 8,
 			backgroundColor: 'transparent',
 		},
-		filledDot: {
-			backgroundColor: theme.colors.primary,
-		},
-		keypadConatiner: {
-			width: '100%',
-			flexDirection: 'row',
-			flexWrap: 'wrap',
-			alignContent: 'center',
-			columnGap: '5%',
-			rowGap: 10,
-			paddingBottom: 40,
-			justifyContent: 'center',
-		},
-		key: {
-			height: 65,
-			width: '30%',
-			justifyContent: 'center',
-			alignItems: 'center',
-			backgroundColor: theme.colors.primary,
-			borderRadius: 50,
-		},
-		keyText: {
-			fontSize: 24,
-			color: theme.colors.white,
-			fontWeight: '600',
-		},
 	});

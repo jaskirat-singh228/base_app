@@ -2,15 +2,11 @@ import MaterialDesignIcons from '@react-native-vector-icons/material-design-icon
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useTheme } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import HomeScreen from 'screens/bottom_tabs/home';
 import ProfileScreen from 'screens/bottom_tabs/profile';
 import { AppStack, BottomTabStack } from 'types/navigation_type';
-import {
-	BottomTabBarIconSize,
-	BottomTabBarLabelSize,
-	LATO_BOLD,
-	SCREEN_HEIGHT,
-} from 'utilities/constants';
+import { BottomTabBarIconSize, BottomTabBarLabelSize, LATO_BOLD } from 'utilities/constants';
 
 type DashboardBottomTabNavigatorProps = NativeStackScreenProps<
 	AppStack,
@@ -20,13 +16,15 @@ type DashboardBottomTabNavigatorProps = NativeStackScreenProps<
 const Tab = createBottomTabNavigator<BottomTabStack>();
 
 const DashboardBottomTabNavigator: React.FC<DashboardBottomTabNavigatorProps> = (props) => {
-	// const { message } = props.route.params;
 	const { colors } = useTheme();
+	const insets = useSafeAreaInsets();
+
 	return (
 		<Tab.Navigator
+			safeAreaInsets={insets}
 			screenOptions={{
 				headerShown: false,
-				tabBarStyle: { backgroundColor: colors.primary, height: SCREEN_HEIGHT * 0.1 },
+				tabBarStyle: { backgroundColor: colors.primary },
 				tabBarLabelStyle: {
 					fontSize: BottomTabBarLabelSize,
 					fontFamily: LATO_BOLD,

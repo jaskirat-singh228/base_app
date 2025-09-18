@@ -1,3 +1,4 @@
+import { useTheme } from '@react-navigation/core';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import BaseText from 'components/base_componenets/base_text';
 import React from 'react';
@@ -12,6 +13,7 @@ import { AsyncStorageKeys } from 'utilities/async_storage_keys';
 type SplashScreenProps = NativeStackScreenProps<AuthStack, 'SplashScreen'>;
 
 const SplashScreen: React.FC<SplashScreenProps> = (props) => {
+	const theme = useTheme();
 	const dispatch = useAppDispatch();
 
 	React.useEffect(() => {
@@ -42,7 +44,9 @@ const SplashScreen: React.FC<SplashScreenProps> = (props) => {
 
 	return (
 		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-			<BaseText style={{ fontSize: 20 }}>Welcome to the app ❤️</BaseText>
+			<BaseText style={{ fontSize: 20, fontFamily: theme.fonts.bold.fontFamily }}>
+				Welcome to the app ❤️
+			</BaseText>
 		</View>
 	);
 };

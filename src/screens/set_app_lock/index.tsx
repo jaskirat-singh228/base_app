@@ -1,8 +1,8 @@
 import { useTheme } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { BackWithTitleHeader } from 'components/back_with_title_view';
 import BaseText from 'components/base_componenets/base_text';
-import FullScreenContainer from 'components/full_screen_container';
+import { BackWithTitleHeader } from 'components/molecules/back_with_title_view';
+import FullScreenContainer from 'components/molecules/full_screen_container';
 import CustomNumberKeyboard from 'components/number_keyboard';
 import React, { useCallback } from 'react';
 import { View } from 'react-native';

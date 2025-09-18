@@ -6,7 +6,7 @@ export const style = (theme: CustomTheme) =>
 	StyleSheet.create({
 		baseButton: {
 			backgroundColor: theme.colors.primary,
-			height: SCREEN_HEIGHT * 0.06,
+			height: SCREEN_HEIGHT * 0.055,
 			width: SCREEN_WIDTH * 0.9,
 			alignItems: 'center',
 			justifyContent: 'center',

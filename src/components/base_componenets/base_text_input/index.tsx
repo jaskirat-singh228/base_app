@@ -15,13 +15,17 @@ const BaseTextInputComp: React.FC<BaseTextInputCompProps> = (props) => {
 	const viewStyle = style(theme);
 	return (
 		<View style={viewStyle.mainContainer}>
-			{label && <BaseText style={viewStyle.error}>{label}</BaseText>}
+			{label && <BaseText style={viewStyle.label}>{label}</BaseText>}
 			<TextInput
-				style={[viewStyle.textInput, props?.style]}
-				{...props}
 				placeholderTextColor={theme.colors.inputPlaceholder}
+				{...props}
+				style={[viewStyle.textInput, props?.style]}
 			/>
-			{errorMessage && <BaseText style={viewStyle.error}>{errorMessage}</BaseText>}
+			{errorMessage && (
+				<BaseText style={[viewStyle.label, { color: theme.colors.error }]}>
+					{errorMessage}
+				</BaseText>
+			)}
 		</View>
 	);
 };

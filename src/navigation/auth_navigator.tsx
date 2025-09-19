@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import LoginScreen from 'screens/authentication/login';
-import SignUpScreen from 'screens/authentication/sign_up';
+import RegisterScreen from 'screens/authentication/register';
 import SplashScreen from 'screens/authentication/splash';
 import { useAppSelector } from 'store';
 import { AuthStack } from 'types/navigation_type';
@@ -21,7 +21,7 @@ export const AuthNavigator: React.FC = () => {
 		>
 			<Stack.Screen name='SplashScreen' component={SplashScreen} />
 			<Stack.Screen name='LoginScreen' component={LoginScreen} />
-			<Stack.Screen name='SignUpScreen' component={SignUpScreen} />
+			<Stack.Screen name='RegisterScreen' component={RegisterScreen} />
 		</Stack.Navigator>
 	);
 };

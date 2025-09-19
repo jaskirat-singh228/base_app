@@ -1,7 +1,7 @@
 export type AuthStack = {
 	SplashScreen: undefined;
 	LoginScreen: undefined;
-	SignUpScreen: undefined;
+	RegisterScreen: undefined;
 };
 
 export type AppStack = {

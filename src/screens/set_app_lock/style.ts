@@ -1,7 +1,7 @@
-import { CustomTheme } from '@react-navigation/native';
+import { Theme } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
 
-export const style = (theme: CustomTheme) =>
+export const style = (theme: Theme) =>
 	StyleSheet.create({
 		container: {
 			flex: 1,

@@ -15,6 +15,16 @@ const AppScreenContainer: React.FC<AppScreenContainerProps> = (props) => {
 	const theme = useTheme();
 	const insets = useSafeAreaInsets();
 	const viewStyle = style(theme, insets);
+	console.log(
+		'insets:Top,',
+		insets.top,
+		'insets:Bottom,',
+		insets.bottom,
+		'insets:Left,',
+		insets.left,
+		'insets:Right,',
+		insets.right,
+	);
 
 	return (
 		<View style={viewStyle.mainContainer}>

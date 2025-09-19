@@ -1,13 +1,10 @@
-import { CustomTheme } from '@react-navigation/native';
+import { Theme } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from 'utilities/constants';
 
-export const style = (theme: CustomTheme) =>
+export const style = (theme: Theme) =>
 	StyleSheet.create({
 		baseButton: {
 			backgroundColor: theme.colors.primary,
-			height: SCREEN_HEIGHT * 0.055,
-			width: SCREEN_WIDTH * 0.9,
 			alignItems: 'center',
 			justifyContent: 'center',
 			borderRadius: 10,

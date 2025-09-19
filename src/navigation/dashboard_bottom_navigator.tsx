@@ -31,6 +31,7 @@ const DashboardBottomTabNavigator: React.FC<DashboardBottomTabNavigatorProps> = 
 				},
 				tabBarActiveTintColor: colors.white,
 				tabBarInactiveTintColor: colors.buttonDisable,
+				tabBarLabelPosition: 'below-icon',
 			}}
 			initialRouteName='HomeScreen'
 		>

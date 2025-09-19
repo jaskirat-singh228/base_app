@@ -1,7 +1,7 @@
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, Theme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import { StyleSheet, useColorScheme } from 'react-native';
+import { StyleSheet, useColorScheme, useWindowDimensions } from 'react-native';
 import { useAppSelector } from 'store';
 import { LATO_BOLD, LATO_REGULAR } from 'utilities/constants';
 import { darkThemeColors, lightThemeColors } from 'utilities/theme';
@@ -11,10 +11,11 @@ import { AuthNavigator } from './auth_navigator';
 const RootStack = createNativeStackNavigator();
 
 const RootNavigator = () => {
+	const { height, width } = useWindowDimensions();
 	const { isUserLoggedIn } = useAppSelector((state) => state.authData);
 	const { theme } = useAppSelector((state) => state.appData);
-
 	const systemTheme = useColorScheme();
+
 	const isDarkTheme = React.useMemo(() => {
 		if (theme === 'system') {
 			return systemTheme === 'dark';
@@ -23,19 +24,23 @@ const RootNavigator = () => {
 		}
 	}, [systemTheme, theme]);
 
+	const CustomTheme: Theme = {
+		colors: isDarkTheme ? darkThemeColors : lightThemeColors,
+		dark: isDarkTheme,
+		fonts: {
+			regular: { fontFamily: LATO_REGULAR, fontWeight: '400' },
+			medium: { fontFamily: LATO_REGULAR, fontWeight: '500' },
+			bold: { fontFamily: LATO_BOLD, fontWeight: '700' },
+			heavy: { fontFamily: LATO_BOLD, fontWeight: 'bold' },
+		},
+		sizes: {
+			height: height,
+			width: width,
+		},
+	};
+
 	return (
-		<NavigationContainer
-			theme={{
-				colors: isDarkTheme ? darkThemeColors : lightThemeColors,
-				dark: isDarkTheme,
-				fonts: {
-					regular: { fontFamily: LATO_REGULAR, fontWeight: '400' },
-					medium: { fontFamily: LATO_REGULAR, fontWeight: '500' },
-					bold: { fontFamily: LATO_BOLD, fontWeight: '700' },
-					heavy: { fontFamily: LATO_BOLD, fontWeight: 'bold' },
-				},
-			}}
-		>
+		<NavigationContainer theme={CustomTheme as any}>
 			<RootStack.Navigator screenOptions={{ headerShown: false }}>
 				{isUserLoggedIn ? (
 					<RootStack.Screen name={'AppNavigator'} component={AppNavigator} />

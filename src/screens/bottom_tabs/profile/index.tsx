@@ -5,8 +5,8 @@ import BaseImage from 'components/base_componenets/base_image';
 import BaseText from 'components/base_componenets/base_text';
 import AppScreenContainer from 'components/base_componenets/screen_container';
 import useBiometrics from 'hooks/useBiometrics';
-import React, { useCallback } from 'react';
-import { FlatList, ScrollView, useWindowDimensions, View } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { FlatList, Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAppDispatch, useAppSelector } from 'store';
 import { resetAppData, setAppLock, setBiometric, setTheme } from 'store/slices/app_slice';
@@ -14,24 +14,23 @@ import { userLogout } from 'store/slices/auth_slice';
 import { AppStack, BottomTabStack } from 'types/navigation_type';
 import { removeDataFromAsyncStorage, setDataToAsyncStorage } from 'utilities/async_storage';
 import { AsyncStorageKeys } from 'utilities/async_storage_keys';
-import { IS_BIOMETRIC_ENABLED, IS_IOS, SCREEN_HEIGHT } from 'utilities/constants';
+import { IS_BIOMETRIC_ENABLED, IS_IOS } from 'utilities/constants';
 import { style } from './syle';
-
-const HEADER_HEIGHT = SCREEN_HEIGHT * 0.3;
 
 type ProfileScreenProps = NativeStackScreenProps<BottomTabStack, 'ProfileScreen'>;
 
 const ProfileScreen: React.FC<ProfileScreenProps> = (props) => {
 	const theme = useTheme();
 	const { top } = useSafeAreaInsets();
-	const { height, width } = useWindowDimensions();
-	const isPortrait = height > width;
 	const viewStyle = style(theme, top);
 	const dispatch = useAppDispatch();
 	const { triggerBiometrics } = useBiometrics();
 	const { userLoginData } = useAppSelector((state) => state.authData);
 	const { appLockPIN, isBiometric } = useAppSelector((state) => state.appData);
+	const [selectedMode, setSelectedMode] = useState<'light' | 'dark' | 'system'>('system');
 	const appStackNavigation = useNavigation<NativeStackNavigationProp<AppStack>>();
+
+	const isPortrait = theme.sizes.height > theme.sizes.width;
 
 	const enableBiometric = async () => {
 		if (!isBiometric) {
@@ -71,16 +70,19 @@ const ProfileScreen: React.FC<ProfileScreenProps> = (props) => {
 
 	const darkModeHandler = useCallback(async () => {
 		await setDataToAsyncStorage(AsyncStorageKeys.DARK_THEME, 'darkTheme');
+		setSelectedMode('dark');
 		dispatch(setTheme('dark'));
 	}, []);
 
 	const lightModeHandler = useCallback(async () => {
 		await setDataToAsyncStorage(AsyncStorageKeys.DARK_THEME, 'lightTheme');
+		setSelectedMode('light');
 		dispatch(setTheme('light'));
 	}, []);
 
 	const systemModeHandler = useCallback(async () => {
 		await setDataToAsyncStorage(AsyncStorageKeys.DARK_THEME, 'systemTheme');
+		setSelectedMode('system');
 		dispatch(setTheme('system'));
 	}, []);
 
@@ -88,12 +90,12 @@ const ProfileScreen: React.FC<ProfileScreenProps> = (props) => {
 		<AppScreenContainer style={viewStyle.mainContainer} showBottomBar={false}>
 			<ScrollView
 				stickyHeaderHiddenOnScroll={false}
-				stickyHeaderIndices={[1]}
-				style={{ flex: 1 }}
+				stickyHeaderIndices={[2]}
+				style={{ flex: 1, width: '100%' }}
 				showsVerticalScrollIndicator={false}
 			>
 				<View style={viewStyle.stickyView}>
-					<View style={{ alignItems: 'center' }}>
+					<View style={viewStyle.profilePicContainer}>
 						<BaseImage
 							source={{ uri: 'https://i.pravatar.cc/150' }}
 							style={viewStyle.avatar}
@@ -109,40 +111,25 @@ const ProfileScreen: React.FC<ProfileScreenProps> = (props) => {
 						/>
 					</View>
 				</View>
-				{/* <View style={viewStyle.section}>
-					<BaseText style={viewStyle.sectionTitle}>Security and Privacy</BaseText>
-					<View style={viewStyle.listItem}>
-						<BaseText style={viewStyle.listText}>App Lock</BaseText>
-						<Pressable
-							onPress={enableAppLock}
-							style={[
-								viewStyle.toggleButtonContainer,
-								{
-									alignItems: !!appLockPIN ? 'flex-end' : 'flex-start',
-									backgroundColor: !!appLockPIN ? 'green' : 'gray',
-								},
-							]}
-						>
-							<View
-								style={[
-									viewStyle.toggleIdicator,
-									{
-										backgroundColor: !!appLockPIN ? 'lightgreen' : 'lightgray',
-									},
-								]}
-							/>
-						</Pressable>
-					</View>
-					{!!appLockPIN && (
+				<View style={viewStyle.sectionsContainer}>
+					<View
+						style={[
+							viewStyle.section,
+							{
+								width: isPortrait ? '90%' : '95%',
+							},
+						]}
+					>
+						<BaseText style={viewStyle.sectionTitle}>Security and Privacy</BaseText>
 						<View style={viewStyle.listItem}>
-							<BaseText style={viewStyle.listText}>Enable Biometric</BaseText>
+							<BaseText style={viewStyle.listText}>App Lock</BaseText>
 							<Pressable
-								onPress={enableBiometric}
+								onPress={enableAppLock}
 								style={[
 									viewStyle.toggleButtonContainer,
 									{
-										alignItems: isBiometric ? 'flex-end' : 'flex-start',
-										backgroundColor: isBiometric ? 'green' : 'gray',
+										alignItems: !!appLockPIN ? 'flex-end' : 'flex-start',
+										backgroundColor: !!appLockPIN ? 'green' : 'gray',
 									},
 								]}
 							>
@@ -150,7 +137,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = (props) => {
 									style={[
 										viewStyle.toggleIdicator,
 										{
-											backgroundColor: isBiometric
+											backgroundColor: !!appLockPIN
 												? 'lightgreen'
 												: 'lightgray',
 										},
@@ -158,64 +145,122 @@ const ProfileScreen: React.FC<ProfileScreenProps> = (props) => {
 								/>
 							</Pressable>
 						</View>
-					)}
-				</View>
-				<View style={viewStyle.section}>
-					<BaseText style={viewStyle.sectionTitle}>Theme</BaseText>
-					<Pressable style={viewStyle.listItem} onPress={lightModeHandler}>
-						<BaseText style={viewStyle.listText}>Light Mode</BaseText>
-					</Pressable>
-					<Pressable style={viewStyle.listItem} onPress={darkModeHandler}>
-						<BaseText style={viewStyle.listText}>Dark Mode</BaseText>
-					</Pressable>
-					<Pressable style={viewStyle.listItem} onPress={systemModeHandler}>
-						<BaseText style={viewStyle.listText}>System Mode</BaseText>
-					</Pressable>
-				</View> */}
-
-				<View style={{ width: '100%', backgroundColor: theme.colors.background }}>
-					<BaseText
-						style={{
-							width: '100%',
-							fontSize: 18,
-							color: theme.colors.text,
-							margin: 12,
-							fontFamily: theme.fonts.heavy.fontFamily,
-						}}
+						{!!appLockPIN && (
+							<View style={viewStyle.listItem}>
+								<BaseText style={viewStyle.listText}>Enable Biometric</BaseText>
+								<Pressable
+									onPress={enableBiometric}
+									style={[
+										viewStyle.toggleButtonContainer,
+										{
+											alignItems: isBiometric ? 'flex-end' : 'flex-start',
+											backgroundColor: isBiometric ? 'green' : 'gray',
+										},
+									]}
+								>
+									<View
+										style={[
+											viewStyle.toggleIdicator,
+											{
+												backgroundColor: isBiometric
+													? 'lightgreen'
+													: 'lightgray',
+											},
+										]}
+									/>
+								</Pressable>
+							</View>
+						)}
+					</View>
+					<View
+						style={[
+							viewStyle.section,
+							{
+								width: isPortrait ? '90%' : '95%',
+							},
+						]}
 					>
-						Posts
-					</BaseText>
+						<BaseText style={viewStyle.sectionTitle}>Theme</BaseText>
+						<Pressable
+							style={[
+								viewStyle.listItem,
+								{
+									backgroundColor:
+										selectedMode === 'light'
+											? theme.colors.border
+											: theme.colors.card,
+								},
+							]}
+							onPress={lightModeHandler}
+						>
+							<BaseText style={viewStyle.listText}>Light Mode</BaseText>
+						</Pressable>
+						<Pressable
+							style={[
+								viewStyle.listItem,
+								{
+									backgroundColor:
+										selectedMode === 'dark'
+											? theme.colors.border
+											: theme.colors.card,
+								},
+							]}
+							onPress={darkModeHandler}
+						>
+							<BaseText style={viewStyle.listText}>Dark Mode</BaseText>
+						</Pressable>
+						<Pressable
+							style={[
+								viewStyle.listItem,
+								{
+									backgroundColor:
+										selectedMode === 'system'
+											? theme.colors.border
+											: theme.colors.card,
+								},
+							]}
+							onPress={systemModeHandler}
+						>
+							<BaseText style={viewStyle.listText}>System Mode</BaseText>
+						</Pressable>
+					</View>
 				</View>
 
-				<FlatList
-					data={Array.from({ length: 20 }, (_, i) => i + 1)}
-					scrollEnabled={false}
-					showsVerticalScrollIndicator={false}
-					contentContainerStyle={{ paddingBottom: 100 }}
-					numColumns={3}
-					renderItem={() => {
-						return (
-							<BaseImage
-								style={{
-									height: isPortrait
-										? height * 0.13
-										: IS_IOS
-										? height * 0.54
-										: height * 0.54,
-									width: isPortrait
-										? width * 0.3
-										: IS_IOS
-										? width * 0.27
-										: width * 0.3,
-									backgroundColor: theme.colors.inputPlaceholder,
-									margin: 5,
-									borderRadius: theme.colors.borderRadius,
-								}}
-								source={{ uri: 'https://i.pravatar.cc/150' }}
-							/>
-						);
-					}}
-				/>
+				<View style={viewStyle.postsTextContainer}>
+					<BaseText style={viewStyle.postsText}>Posts</BaseText>
+				</View>
+
+				<View style={{ alignItems: 'center' }}>
+					<FlatList
+						data={Array.from({ length: 20 }, (_, i) => i + 1)}
+						scrollEnabled={false}
+						showsVerticalScrollIndicator={false}
+						contentContainerStyle={{
+							paddingBottom: 100,
+						}}
+						numColumns={3}
+						renderItem={() => {
+							return (
+								<BaseImage
+									style={{
+										height: isPortrait
+											? theme.sizes.height * 0.13
+											: theme.sizes.height * 0.54,
+										width: isPortrait
+											? theme.sizes.width * 0.29
+											: IS_IOS
+											? theme.sizes.width * 0.27
+											: theme.sizes.width * 0.3,
+										backgroundColor: theme.colors.inputPlaceholder,
+										margin: 5,
+										borderRadius: theme.colors.borderRadius,
+									}}
+									source={{ uri: 'https://i.pravatar.cc/150' }}
+								/>
+							);
+						}}
+					/>
+				</View>
 			</ScrollView>
 		</AppScreenContainer>
 	);

@@ -3,15 +3,15 @@ import React from 'react';
 import { Button, Text, View } from 'react-native';
 import { AuthStack } from 'types/navigation_type';
 
-type SignUpScreenProps = NativeStackScreenProps<AuthStack, 'SignUpScreen'>;
+type RegisterScreenProps = NativeStackScreenProps<AuthStack, 'RegisterScreen'>;
 
-const SignUpScreen: React.FC<SignUpScreenProps> = (props) => {
+const RegisterScreen: React.FC<RegisterScreenProps> = (props) => {
 	return (
 		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-			<Text>SignUpScreen</Text>
+			<Text>RegisterScreen</Text>
 			<Button title='Sign Up' onPress={() => {}} />
 		</View>
 	);
 };
 
-export default SignUpScreen;
+export default RegisterScreen;

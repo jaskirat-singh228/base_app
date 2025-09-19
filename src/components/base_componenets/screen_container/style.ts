@@ -1,8 +1,8 @@
-import { CustomTheme } from '@react-navigation/native';
+import { Theme } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
 import { EdgeInsets } from 'react-native-safe-area-context';
 
-export const style = (theme: CustomTheme, insets: EdgeInsets) =>
+export const style = (theme: Theme, insets: EdgeInsets) =>
 	StyleSheet.create({
 		mainContainer: { flex: 1 },
 		statusBar: {
@@ -16,7 +16,6 @@ export const style = (theme: CustomTheme, insets: EdgeInsets) =>
 			backgroundColor: theme.colors.background,
 			paddingLeft: insets.left,
 			paddingRight: insets.right,
-			paddingBottom: insets.bottom,
 		},
 		bottomBar: {
 			height: insets.bottom,

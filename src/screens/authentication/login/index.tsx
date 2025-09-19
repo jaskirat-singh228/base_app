@@ -3,7 +3,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import BaseButton from 'components/base_componenets/base_button';
 import BaseTextInput from 'components/base_componenets/base_text_input';
 import AppScreenContainer from 'components/base_componenets/screen_container';
-import React from 'react';
+import React, { useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { Keyboard, KeyboardAvoidingView, Pressable } from 'react-native';
 import { useAppDispatch } from 'store';
@@ -25,6 +25,7 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
 	const theme = useTheme();
 	const viewStyle = style(theme);
 	const dispatch = useAppDispatch();
+	const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
 	const {
 		control,
@@ -62,6 +63,9 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
 				style={viewStyle.formKeyboardAvoidingContainer}
 			>
 				<Pressable style={viewStyle.mainContainer} onPress={Keyboard.dismiss}>
+					{/* <BaseModal onClose={() => setIsModalVisible(false)} visible={isModalVisible} />
+					<BaseButton title='press' onPress={() => setIsModalVisible(true)} /> */}
+
 					<Controller
 						control={control}
 						name='email'

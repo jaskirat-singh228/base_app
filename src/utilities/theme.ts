@@ -1,6 +1,6 @@
-import { CustomTheme } from '@react-navigation/native';
+import { Theme } from '@react-navigation/native';
 
-export const lightThemeColors: CustomTheme['colors'] = {
+export const lightThemeColors: Theme['colors'] = {
 	card: '#F5F5F5',
 	text: '#000000',
 	info: '#0070F2',
@@ -21,7 +21,7 @@ export const lightThemeColors: CustomTheme['colors'] = {
 	inputPlaceholder: '#858585',
 };
 
-export const darkThemeColors: CustomTheme['colors'] = {
+export const darkThemeColors: Theme['colors'] = {
 	card: '#1F2937',
 	text: '#F9FAFB',
 	info: '#3B82F6',

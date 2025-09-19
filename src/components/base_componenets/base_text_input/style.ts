@@ -1,12 +1,12 @@
-import { CustomTheme } from '@react-navigation/native';
+import { Theme } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
-import { SCREEN_HEIGHT } from 'utilities/constants';
 
-export const style = (theme: CustomTheme) =>
+export const style = (theme: Theme) =>
 	StyleSheet.create({
 		mainContainer: {
 			width: '100%',
 			paddingHorizontal: 20,
+			alignItems: 'center',
 		},
 		label: {
 			color: theme.colors.text,
@@ -15,7 +15,7 @@ export const style = (theme: CustomTheme) =>
 			fontFamily: theme.fonts.medium.fontFamily,
 		},
 		textInput: {
-			height: SCREEN_HEIGHT * 0.055,
+			height: theme.sizes.height * 0.055,
 			width: '100%',
 			padding: 10,
 			borderRadius: 10,

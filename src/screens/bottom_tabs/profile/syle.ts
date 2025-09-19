@@ -1,17 +1,12 @@
-import { CustomTheme } from '@react-navigation/native';
+import { Theme } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
 
-export const style = (theme: CustomTheme, top: number) =>
+export const style = (theme: Theme, top: number) =>
 	StyleSheet.create({
 		mainContainer: {
 			alignItems: 'center',
-			justifyContent: 'center',
 		},
-		statusBarContainer: {
-			height: top,
-			backgroundColor: theme.colors.primary,
-			zIndex: 1000,
-		},
+		profilePicContainer: { alignItems: 'center', marginTop: 10 },
 		stickyView: {
 			alignItems: 'center',
 			justifyContent: 'center',
@@ -41,16 +36,32 @@ export const style = (theme: CustomTheme, top: number) =>
 			borderRadius: 8,
 			marginHorizontal: 5,
 		},
+		sectionsContainer: {
+			alignItems: 'center',
+			width: '100%',
+			paddingBottom: 20,
+		},
+		postsTextContainer: { width: '100%', backgroundColor: theme.colors.background },
+		postsText: {
+			width: '100%',
+			fontSize: 18,
+			color: theme.colors.text,
+			margin: 12,
+			fontFamily: theme.fonts.heavy.fontFamily,
+		},
 		section: {
-			width: '90%',
 			marginTop: 20,
 			backgroundColor: theme.colors.card,
 			borderRadius: 12,
 			padding: 15,
 			shadowColor: theme.colors.black,
-			shadowOpacity: 0.05,
+			shadowOpacity: 0.3,
 			shadowRadius: 5,
 			elevation: 3,
+			shadowOffset: {
+				width: 0,
+				height: 4,
+			},
 		},
 		sectionTitle: {
 			fontSize: 18,
@@ -59,7 +70,8 @@ export const style = (theme: CustomTheme, top: number) =>
 			fontFamily: theme.fonts.heavy.fontFamily,
 		},
 		listItem: {
-			paddingVertical: 12,
+			width: '100%',
+			padding: 10,
 			borderBottomWidth: 1,
 			borderBottomColor: theme.colors.border,
 			flexDirection: 'row',

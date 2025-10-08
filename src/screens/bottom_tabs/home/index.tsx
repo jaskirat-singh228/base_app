@@ -10,8 +10,14 @@ import { style } from './style';
 
 type HomeScreenProps = NativeStackScreenProps<BottomTabStack, 'HomeScreen'>;
 
-const CompA = forwardRef((props, ref) => {
+interface CompAHandle {
+	reset: () => void;
+	getValue: () => string;
+}
+
+const CompA = forwardRef<CompAHandle, {}>((props, ref) => {
 	const [text, setText] = React.useState<string>('');
+
 	useImperativeHandle(ref, () => ({
 		reset: () => setText(''),
 		getValue: () => text,
@@ -29,13 +35,13 @@ const CompA = forwardRef((props, ref) => {
 const HomeScreen: React.FC<HomeScreenProps> = () => {
 	const theme = useTheme();
 	const viewStyle = style(theme);
-	const counterRef = useRef<any>(null);
+	const counterRef = useRef<CompAHandle | null>(null);
 
 	return (
 		<AppScreenContainer style={viewStyle.mainContainer} showBottomBar={false}>
 			<BaseText style={viewStyle.emailText}>Welcome to Home Page ❤️</BaseText>
 			<CompA ref={counterRef} />
-			<BaseButton title='Reset' onPress={() => counterRef.current.reset()} />
+			<BaseButton title='Reset' onPress={() => counterRef.current?.reset()} />
 		</AppScreenContainer>
 	);
 };

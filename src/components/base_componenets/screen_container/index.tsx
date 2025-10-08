@@ -1,5 +1,5 @@
 import { useTheme } from '@react-navigation/native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import { SafeAreaViewProps, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { style } from './style';
@@ -15,24 +15,45 @@ const AppScreenContainer: React.FC<AppScreenContainerProps> = (props) => {
 	const theme = useTheme();
 	const insets = useSafeAreaInsets();
 	const viewStyle = style(theme, insets);
-	console.log(
-		'insets:Top,',
-		insets.top,
-		'insets:Bottom,',
-		insets.bottom,
-		'insets:Left,',
-		insets.left,
-		'insets:Right,',
-		insets.right,
-	);
+
+	useEffect(() => {
+		console.log(
+			'insets:Top,',
+			insets.top,
+			'insets:Bottom,',
+			insets.bottom,
+			'insets:Left,',
+			insets.left,
+			'insets:Right,',
+			insets.right,
+		);
+	}, [insets]);
 
 	return (
 		<View style={viewStyle.mainContainer}>
-			{showStatusBar ? <View style={viewStyle.statusBar} /> : false}
+			<View
+				style={[
+					viewStyle.statusBar,
+					{
+						backgroundColor: showStatusBar
+							? theme.colors.primary
+							: theme.colors.background,
+					},
+				]}
+			/>
 			<View {...props} style={[viewStyle.children, props.style]}>
 				{props?.children ?? undefined}
 			</View>
-			{showBottomBar ? <View style={viewStyle.bottomBar} /> : false}
+			<View
+				style={[
+					viewStyle.bottomBar,
+					{
+						backgroundColor: showStatusBar
+							? theme.colors.primary
+							: theme.colors.background,
+					},
+				]}
+			/>
 		</View>
 	);
 };

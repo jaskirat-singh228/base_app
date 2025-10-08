@@ -1,11 +1,13 @@
 import { useTheme } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import BaseButton from 'components/base_componenets/base_button';
+import BaseText from 'components/base_componenets/base_text';
 import BaseTextInput from 'components/base_componenets/base_text_input';
 import AppScreenContainer from 'components/base_componenets/screen_container';
 import React, { useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { Keyboard, KeyboardAvoidingView, Pressable } from 'react-native';
+import { ScrollView, useWindowDimensions, View } from 'react-native';
+import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
 import { useAppDispatch } from 'store';
 import { userLogin } from 'store/slices/auth_slice';
 import { AuthStack } from 'types/navigation_type';
@@ -21,11 +23,13 @@ type TInputData = {
 
 type LoginScreenProps = NativeStackScreenProps<AuthStack, 'LoginScreen'>;
 
-const LoginScreen: React.FC<LoginScreenProps> = () => {
+const LoginScreen: React.FC<LoginScreenProps> = (props) => {
 	const theme = useTheme();
 	const viewStyle = style(theme);
 	const dispatch = useAppDispatch();
 	const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+	const { height, width } = useWindowDimensions();
+	const isPortrait = height > width;
 
 	const {
 		control,
@@ -57,15 +61,13 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
 	}, []);
 
 	return (
-		<AppScreenContainer showBottomBar={false} showStatusBar={false}>
+		<AppScreenContainer showStatusBar={false} showBottomBar={false}>
 			<KeyboardAvoidingView
-				behavior={'padding'}
-				style={viewStyle.formKeyboardAvoidingContainer}
+				keyboardVerticalOffset={isPortrait ? theme.sizes.height * 0.06 : -10}
+				behavior='padding'
+				style={viewStyle.mainContainer}
 			>
-				<Pressable style={viewStyle.mainContainer} onPress={Keyboard.dismiss}>
-					{/* <BaseModal onClose={() => setIsModalVisible(false)} visible={isModalVisible} />
-					<BaseButton title='press' onPress={() => setIsModalVisible(true)} /> */}
-
+				<ScrollView contentContainerStyle={viewStyle.scrollViewContent}>
 					<Controller
 						control={control}
 						name='email'
@@ -128,12 +130,25 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
 							/>
 						)}
 					/>
-					<BaseButton
-						style={viewStyle.button}
-						title='Login'
-						onPress={handleSubmit(submitClickHandler)}
-					/>
-				</Pressable>
+				</ScrollView>
+				<View style={viewStyle.buttonContainer}>
+					<BaseButton title='Login' onPress={handleSubmit(submitClickHandler)} />
+					<View style={viewStyle.signUpContainer}>
+						<BaseText style={viewStyle.signUpText}>Don't have any account?</BaseText>
+						<BaseText
+							onPress={() => props.navigation.navigate('RegisterScreen')}
+							style={[
+								viewStyle.signUpText,
+								{
+									color: theme.colors.primary,
+									marginLeft: 5,
+								},
+							]}
+						>
+							Sign Up
+						</BaseText>
+					</View>
+				</View>
 			</KeyboardAvoidingView>
 		</AppScreenContainer>
 	);

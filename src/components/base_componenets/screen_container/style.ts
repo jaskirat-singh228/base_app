@@ -8,7 +8,6 @@ export const style = (theme: Theme, insets: EdgeInsets) =>
 		statusBar: {
 			height: insets.top,
 			width: '100%',
-			backgroundColor: theme.colors.primary,
 			zIndex: 1000,
 		},
 		children: {
@@ -20,7 +19,6 @@ export const style = (theme: Theme, insets: EdgeInsets) =>
 		bottomBar: {
 			height: insets.bottom,
 			width: '100%',
-			backgroundColor: theme.colors.primary,
 			zIndex: 1000,
 		},
 	});

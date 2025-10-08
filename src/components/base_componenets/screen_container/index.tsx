@@ -44,16 +44,18 @@ const AppScreenContainer: React.FC<AppScreenContainerProps> = (props) => {
 			<View {...props} style={[viewStyle.children, props.style]}>
 				{props?.children ?? undefined}
 			</View>
-			<View
-				style={[
-					viewStyle.bottomBar,
-					{
-						backgroundColor: showStatusBar
-							? theme.colors.primary
-							: theme.colors.background,
-					},
-				]}
-			/>
+			{showBottomBar && (
+				<View
+					style={[
+						viewStyle.bottomBar,
+						{
+							backgroundColor: showStatusBar
+								? theme.colors.primary
+								: theme.colors.background,
+						},
+					]}
+				/>
+			)}
 		</View>
 	);
 };

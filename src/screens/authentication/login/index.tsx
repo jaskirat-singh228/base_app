@@ -4,10 +4,11 @@ import BaseButton from 'components/base_componenets/base_button';
 import BaseText from 'components/base_componenets/base_text';
 import BaseTextInput from 'components/base_componenets/base_text_input';
 import AppScreenContainer from 'components/base_componenets/screen_container';
-import React, { useState } from 'react';
+import React from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { ScrollView, useWindowDimensions, View } from 'react-native';
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAppDispatch } from 'store';
 import { userLogin } from 'store/slices/auth_slice';
 import { AuthStack } from 'types/navigation_type';
@@ -25,9 +26,9 @@ type LoginScreenProps = NativeStackScreenProps<AuthStack, 'LoginScreen'>;
 
 const LoginScreen: React.FC<LoginScreenProps> = (props) => {
 	const theme = useTheme();
-	const viewStyle = style(theme);
+	const insets = useSafeAreaInsets();
+	const viewStyle = style(theme, insets);
 	const dispatch = useAppDispatch();
-	const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 	const { height, width } = useWindowDimensions();
 	const isPortrait = height > width;
 

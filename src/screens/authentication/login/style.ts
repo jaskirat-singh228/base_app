@@ -1,7 +1,8 @@
 import { Theme } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
+import { EdgeInsets } from 'react-native-safe-area-context';
 
-export const style = (theme: Theme) =>
+export const style = (theme: Theme, insets: EdgeInsets) =>
 	StyleSheet.create({
 		mainContainer: { flex: 1 },
 		scrollViewContent: {
@@ -14,7 +15,7 @@ export const style = (theme: Theme) =>
 		buttonContainer: {
 			gap: 10,
 			alignItems: 'center',
-			marginBottom: 20,
+			marginBottom: insets.bottom,
 		},
 		signUpContainer: {
 			flexDirection: 'row',
